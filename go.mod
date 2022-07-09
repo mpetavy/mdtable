@@ -1,6 +1,11 @@
 module mdtable
 
-go 1.17
+go 1.18
+
+require (
+	github.com/atotto/clipboard v0.1.4
+	github.com/mpetavy/common v1.4.28
+)
 
 require (
 	cloud.google.com/go v0.88.0 // indirect
@@ -26,7 +31,6 @@ require (
 	github.com/labstack/gommon v0.3.1 // indirect
 	github.com/mattn/go-colorable v0.1.11 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
-	github.com/mpetavy/common v1.4.26 // indirect
 	github.com/paulrosania/go-charset v0.0.0-20190326053356-55c9d7a5834c // indirect
 	github.com/quasoft/memstore v0.0.0-20191010062613-2bce066d2b0b // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
@@ -47,5 +51,3 @@ require (
 	google.golang.org/protobuf v1.27.1 // indirect
 	software.sslmate.com/src/go-pkcs12 v0.0.0-20210415151418-c5206de65a78 // indirect
 )
-
-replace github.com/mpetavy/common => ../common

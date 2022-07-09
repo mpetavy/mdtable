@@ -1,11 +1,14 @@
 package main
 
 import (
-	"encoding/json"
+	"bufio"
+	"bytes"
 	"flag"
 	"fmt"
+	"github.com/atotto/clipboard"
 	"github.com/mpetavy/common"
 	"io/ioutil"
+	"strings"
 )
 
 var (
@@ -17,52 +20,77 @@ func init() {
 }
 
 func run() error {
-	if !common.FileExists_(*filename) {
-		var tb [2][3]string
-		for i := 0; i < len(tb[0]); i++ {
-			tb[0][i] = fmt.Sprintf("header%d", i)
-			tb[1][i] = fmt.Sprintf("sample%d", i)
-		}
+	var ba []byte
+	var err error
 
-		ba, err := json.MarshalIndent(tb, "", "    ")
+	if len(*filename) > 0 && common.FileExists_(*filename) {
+		ba, err = ioutil.ReadFile(*filename)
 		if common.Error(err) {
 			return err
 		}
-
-		err = ioutil.WriteFile(*filename, ba, common.DefaultFileMode)
-		if common.Error(err) {
+	} else {
+		t, err := clipboard.ReadAll()
+		if err != nil {
 			return err
 		}
 
-		common.Info(string(ba))
-		common.Info("file %s created", *filename)
+		if len(t) > 0 {
+			ba = []byte(t)
+		}
+	}
+
+	if ba == nil {
+		common.Info("Please provide content via clipboard or file")
 
 		return nil
 	}
 
-	ba, err := ioutil.ReadFile(*filename)
-	if common.Error(err) {
-		return err
-	}
-
-	var tb [][]string
-
-	err = json.Unmarshal(ba, &tb)
-	if common.Error(err) {
-		return err
-	}
-
 	st := common.NewStringTable()
-	st.NoCross = true
+	st.Markdown = true
 
-	for row := 0; row < len(tb); row++ {
-		st.AddRow()
-		for col := 0; col < len(tb[row]); col++ {
-			st.AddCol(tb[row][col])
+	scanner := bufio.NewScanner(bytes.NewReader(ba))
+	for scanner.Scan() {
+		line := scanner.Text()
+
+		line = strings.TrimSpace(line)
+
+		if len(line) > 0 && !strings.Contains(line, "---") {
+			splits := strings.Split(line, "|")
+
+			if len(splits) == 0 {
+				continue
+			}
+
+			st.AddRow()
+			for _, split := range splits {
+				st.AddCol(split)
+			}
 		}
 	}
 
-	common.Info(st.String())
+	if st == nil {
+		st = common.NewStringTable()
+		st.Markdown = true
+
+		st.AddRow()
+		for i := 0; i < 3; i++ {
+			st.AddCol(fmt.Sprintf("header-%d", i))
+		}
+		st.AddRow()
+		for i := 0; i < 3; i++ {
+			st.AddCol(fmt.Sprintf("column-%d", i))
+		}
+	}
+
+	fmt.Printf(st.String())
+
+	if len(*filename) == 0 {
+		err := clipboard.WriteAll(st.String())
+
+		if common.Error(err) {
+			return err
+		}
+	}
 
 	return nil
 }
@@ -70,5 +98,5 @@ func run() error {
 func main() {
 	defer common.Done()
 
-	common.Run([]string{"f"})
+	common.Run(nil)
 }

@@ -1,12 +1,29 @@
-[
-    [
-        "header0",
-        "header1",
-        "header2"
-    ],
-    [
-        "sample0",
-        "sample1",
-        "sample2"
-    ]
-]
+| Version  |  Date        |  Author   |  Description                                                               |
+| -------- | ------------ | --------- | -------------------------------------------------------------------------- |
+| 1.0.0    |  27.02.2020  |  mpetavy  |  Initial release                                                           |
+| 1.0.1    |  06.03.2020  |  mpetavy  |  Callback section updated, LED description added                           |
+| 1.0.2    |  11.03.2020  |  mpetavy  |  Callback section updated, queries descriped                               |
+| 1.0.3    |  16.03.2020  |  mpetavy  |  Tests documented, Runtime parameter updated                               |
+| 1.0.4    |  22.03.2020  |  mpetavy  |  Some minor corrections                                                    |
+| 1.0.5    |  31.03.2020  |  mpetavy  |  Description of CI/CD env, Docker build, Docker run                        |
+| 1.0.6    |  17.04.2020  |  mpetavy  |  Compiling HYDRA added                                                     |
+| 1.0.7    |  17.04.2020  |  mpetavy  |  Running with Docker, Running with Linux Containers (LXC)                  |
+| 1.0.8    |  27.05.2020  |  mpetavy  |  Callback section updated                                                  |
+| 1.0.9    |  06.07.2020  |  mpetavy  |  Runtime parameter updated                                                 |
+| 1.0.10   |  05.08.2020  |  mpetavy  |  GO version 1.14.6                                                         |
+| 1.0.11   |  17.08.2020  |  mpetavy  |  GO version 1.16.5                                                         |
+| 1.0.12   |  19.08.2020  |  mpetavy  |  REST endpoint description added                                           |
+| 1.0.13   |  15.09.2020  |  mpetavy  |  Updated runtime parameter                                                 |
+| 1.0.14   |  29.09.2020  |  mpetavy  |  REST api update                                                           |
+| 1.0.15   |  18.12.2020  |  mpetavy  |  Runtime parameter updated                                                 |
+| 1.0.16   |  09.02.2021  |  mpetavy  |  Updated runtime parameter                                                 |
+| 1.0.17   |  05.03.2021  |  mpetavy  |  GO version 1.16, Updated runtime parameter and REST endpoints             |
+| 1.0.18   |  18.03.2021  |  mpetavy  |  GO version 1.16.2, Updated runtime parameter                              |
+| 1.0.19   |  17.04.2021  |  mpetavy  |  GO version 1.16.3, Updated callback query parameter                       |
+| 1.0.20   |  22.04.2021  |  mpetavy  |  Callback: NTP server added                                                |
+| 1.0.21   |  01.05.2021  |  mpetavy  |  Callback: "nic0"/"nic1" and "firewall0"/"firewall1" added                 |
+| 1.0.22   |  12.05.2021  |  mpetavy  |  Reformatted tables                                                        |
+| 1.0.23   |  04.06.2021  |  mpetavy  |  LED control flags added                                                   |
+| 1.0.24   |  06.06.2021  |  mpetavy  |  GO version 1.16.5, Additional runtime flags added                         |
+| 1.0.25   |  22.06.2021  |  mpetavy  |  New flag "scan.serial.bydriver" added                                     |
+| 1.0.26   |  23.06.2021  |  mpetavy  |  Pre-create a configuration file "hydra.json" with current system settings |
