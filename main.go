@@ -63,28 +63,25 @@ func run() error {
 
 			st.AddRow()
 			for _, split := range splits {
-				st.AddCol(split)
+				split = strings.TrimSpace(strings.ReplaceAll(split, "|", ""))
+				st.AddCol(strings.TrimSpace(split))
 			}
-		}
-	}
-
-	if st == nil {
-		st = common.NewStringTable()
-		st.Markdown = true
-
-		st.AddRow()
-		for i := 0; i < 3; i++ {
-			st.AddCol(fmt.Sprintf("header-%d", i))
-		}
-		st.AddRow()
-		for i := 0; i < 3; i++ {
-			st.AddCol(fmt.Sprintf("column-%d", i))
 		}
 	}
 
 	fmt.Printf(st.String())
 
-	if len(*filename) == 0 {
+	if len(*filename) > 0 {
+		err := common.FileBackup(*filename)
+		if common.Error(err) {
+			return err
+		}
+
+		err = ioutil.WriteFile(*filename, []byte(st.String()), common.DefaultFileMode)
+		if common.Error(err) {
+			return err
+		}
+	} else {
 		err := clipboard.WriteAll(st.String())
 
 		if common.Error(err) {
