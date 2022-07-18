@@ -54,6 +54,10 @@ func run() error {
 
 		line = strings.TrimSpace(line)
 
+		if strings.HasSuffix(line, "|") {
+			line = line[:len(line)-1]
+		}
+
 		if len(line) > 0 && !strings.Contains(line, "---") {
 			splits := strings.Split(line, "|")
 
