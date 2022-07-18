@@ -83,7 +83,6 @@ func run() error {
 		}
 	} else {
 		err := clipboard.WriteAll(st.String())
-
 		if common.Error(err) {
 			return err
 		}
