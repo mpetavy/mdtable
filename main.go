@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"github.com/atotto/clipboard"
 	"github.com/mpetavy/common"
-	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -24,7 +24,7 @@ func run() error {
 	var err error
 
 	if len(*filename) > 0 && common.FileExists_(*filename) {
-		ba, err = ioutil.ReadFile(*filename)
+		ba, err = os.ReadFile(*filename)
 		if common.Error(err) {
 			return err
 		}
@@ -81,7 +81,7 @@ func run() error {
 			return err
 		}
 
-		err = ioutil.WriteFile(*filename, []byte(st.String()), common.DefaultFileMode)
+		err = os.WriteFile(*filename, []byte(st.String()), common.DefaultFileMode)
 		if common.Error(err) {
 			return err
 		}
