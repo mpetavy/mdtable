@@ -48,9 +48,29 @@ func run() error {
 	st := common.NewStringTable()
 	st.Markdown = true
 
+	crlf, err := common.NewSeparatorSplitFunc(nil, []byte("\n"), false)
+	if common.Error(err) {
+		return err
+	}
+
+	output := strings.Builder{}
+
 	scanner := bufio.NewScanner(bytes.NewReader(ba))
+	scanner.Split(crlf)
 	for scanner.Scan() {
 		line := scanner.Text()
+
+		if !strings.Contains(line, "|") {
+			if st.Rows() > 0 {
+				output.WriteString(st.String())
+
+				st.Clear()
+			}
+
+			output.WriteString(line)
+
+			continue
+		}
 
 		line = strings.TrimSpace(line)
 
@@ -73,7 +93,9 @@ func run() error {
 		}
 	}
 
-	fmt.Printf(st.String())
+	if st.Rows() > 0 {
+		output.WriteString(st.String())
+	}
 
 	if len(*filename) > 0 {
 		err := common.FileBackup(*filename)
@@ -81,16 +103,18 @@ func run() error {
 			return err
 		}
 
-		err = os.WriteFile(*filename, []byte(st.String()), common.DefaultFileMode)
+		err = os.WriteFile(*filename, []byte(output.String()), common.DefaultFileMode)
 		if common.Error(err) {
 			return err
 		}
 	} else {
-		err := clipboard.WriteAll(st.String())
+		err := clipboard.WriteAll(output.String())
 		if common.Error(err) {
 			return err
 		}
 	}
+
+	common.Info(output.String())
 
 	return nil
 }
