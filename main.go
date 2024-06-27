@@ -26,7 +26,7 @@ func run() error {
 	var ba []byte
 	var err error
 
-	if len(*filename) > 0 && common.FileExists_(*filename) {
+	if len(*filename) > 0 && common.FileExists(*filename) {
 		ba, err = os.ReadFile(*filename)
 		if common.Error(err) {
 			return err
