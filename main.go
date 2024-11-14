@@ -49,7 +49,6 @@ func run() error {
 	}
 
 	st := common.NewStringTable()
-	st.Markdown = true
 
 	crlf, err := common.NewSeparatorSplitFunc(nil, []byte("\n"), false)
 	if common.Error(err) {
@@ -80,7 +79,7 @@ func run() error {
 				st.NoHeader = true
 			} else {
 				if st.Rows() > 0 {
-					output.WriteString(st.String())
+					output.WriteString(st.Markdown())
 
 					st.Clear()
 					st.NoHeader = false
@@ -122,7 +121,7 @@ func run() error {
 
 		if !strings.Contains(line, "|") {
 			if st.Rows() > 0 {
-				output.WriteString(st.String())
+				output.WriteString(st.Markdown())
 
 				st.Clear()
 				st.NoHeader = false
@@ -159,7 +158,7 @@ func run() error {
 	}
 
 	if st.Rows() > 0 {
-		output.WriteString(st.String())
+		output.WriteString(st.Markdown())
 	}
 
 	if len(*filename) > 0 {
