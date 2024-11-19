@@ -13,6 +13,7 @@ import (
 
 var (
 	filename = flag.String("f", "", "filename")
+	format   = flag.String("format", "markdown", "format of output 'markdown', 'table', 'html'")
 )
 
 //go:embed go.mod
@@ -158,7 +159,18 @@ func run() error {
 	}
 
 	if st.Rows() > 0 {
-		output.WriteString(st.Markdown())
+		switch *format {
+		case "table":
+			output.WriteString(st.Table())
+		case "csv":
+			output.WriteString(st.CSV())
+		case "html":
+			output.WriteString(st.Html())
+		case "markdown":
+			output.WriteString(st.Markdown())
+		default:
+			output.WriteString(st.JSON("    "))
+		}
 	}
 
 	if len(*filename) > 0 {
