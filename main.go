@@ -165,11 +165,11 @@ func run() error {
 		case "csv":
 			output.WriteString(st.CSV())
 		case "html":
-			output.WriteString(st.Html())
+			output.WriteString(st.HTML())
 		case "markdown":
 			output.WriteString(st.Markdown())
 		default:
-			output.WriteString(st.JSON("    "))
+			output.WriteString(st.JSON())
 		}
 	}
 
