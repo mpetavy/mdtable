@@ -13,9 +13,9 @@ import (
 )
 
 var (
-	filename = flag.String("f", "", "filename")
-	readCsv  = flag.Bool("csv", false, "read as csv")
-	format   = flag.String("format", "markdown", "format of output 'markdown', 'table', 'html'")
+	inputFilename  = flag.String("i", "", "input filename")
+	outputFilename = flag.String("o", "", "output filename")
+	format         = flag.String("format", "markdown", "format of output 'markdown', 'table', 'html'")
 )
 
 //go:embed go.mod
@@ -29,8 +29,8 @@ func run() error {
 	var ba []byte
 	var err error
 
-	if len(*filename) > 0 && common.FileExists(*filename) {
-		ba, err = os.ReadFile(*filename)
+	if *inputFilename != "" {
+		ba, err = os.ReadFile(*inputFilename)
 		if common.Error(err) {
 			return err
 		}
@@ -214,18 +214,18 @@ func run() error {
 		}
 	}
 
-	if len(*filename) > 0 {
-		err := common.FileBackup(*filename)
+	err = clipboard.WriteAll(output.String())
+	if common.Error(err) {
+		return err
+	}
+
+	if *outputFilename != "" {
+		err := common.FileBackup(*outputFilename)
 		if common.Error(err) {
 			return err
 		}
 
-		err = os.WriteFile(*filename, []byte(output.String()), common.DefaultFileMode)
-		if common.Error(err) {
-			return err
-		}
-	} else {
-		err := clipboard.WriteAll(output.String())
+		err = os.WriteFile(*outputFilename, []byte(output.String()), common.DefaultFileMode)
 		if common.Error(err) {
 			return err
 		}
