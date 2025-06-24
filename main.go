@@ -55,11 +55,28 @@ func run() error {
 
 	output := strings.Builder{}
 
-	if *readCsv || strings.Contains(string(ba), ",") {
+	comma := ""
+
+	scanner := bufio.NewScanner(bytes.NewReader(ba))
+	if scanner.Scan() {
+		line := scanner.Text()
+
+		if strings.Contains(line, "\t") {
+			comma = "\t"
+		}
+
+		if strings.Contains(line, ",") {
+			comma = ","
+		}
+	}
+
+	if comma != "" {
 		common.Info("Reading as CSV")
 		common.Info("")
 
 		c := csv.NewReader(bytes.NewReader(ba))
+		c.Comma = rune(comma[0])
+
 		recs, err := c.ReadAll()
 		if common.Error(err) {
 			return err
