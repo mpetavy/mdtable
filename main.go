@@ -71,8 +71,10 @@ func run() error {
 	}
 
 	if comma != "" {
-		common.Info("Reading as CSV")
-		common.Info("")
+		if !*common.FlagNoBanner {
+			common.Info("Reading as CSV")
+			common.Info("")
+		}
 
 		c := csv.NewReader(bytes.NewReader(ba))
 		c.Comma = rune(comma[0])
@@ -89,8 +91,10 @@ func run() error {
 			}
 		}
 	} else {
-		common.Info("Reading as strings")
-		common.Info("")
+		if !*common.FlagNoBanner {
+			common.Info("Reading as strings")
+			common.Info("")
+		}
 
 		crlf, err := common.NewSeparatorSplitFunc(nil, []byte("\n"), false)
 		if common.Error(err) {
