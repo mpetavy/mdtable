@@ -85,7 +85,7 @@ func run() error {
 		for row := range len(recs) {
 			st.AddRow()
 			for col := range len(recs[row]) {
-				st.AddCol(recs[row][col])
+				st.AddCol(strings.TrimSpace(recs[row][col]))
 			}
 		}
 	} else {
